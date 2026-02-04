@@ -20,8 +20,17 @@ bool isFormat(const std::string(&words)[4]) {
 		throw UserException("Incorrect time format. Line: " + line);
 		return false;
 	}
+	
+	uint8_t id;
+	try {
+		id = std::stoi(words[1]);
+	}
+	catch (const std::invalid_argument&) {
+		throw UserException("Invalid line: " + line);
+		return false;
+	}
+	
 
-	uint8_t id = std::stoi(words[1]);
 	if (!in(id, { 1, 2, 3, 4, 11, 12, 13 })) {
 		throw UserException("Incorrect ID format. Line: " + line);
 		return false;
@@ -35,6 +44,13 @@ bool isFormat(const std::string(&words)[4]) {
 	}
 
 	if (id == 2 || id == 12) {
+		try {
+			std::stoi(words[3]);
+		}
+		catch (const std::invalid_argument&) {
+			throw UserException("Invalid line: " + line);
+			return false;
+		}
 		if (std::stoi(words[3]) <= 0) {
 			throw UserException("Value should be positive. Line: " + line);
 			return false;
@@ -183,6 +199,7 @@ void generateOutEvent(std::vector<Event>& eventsAll,
 	case 3:
 	{
 		if (queue.size() > tablesNumber) {
+			clientsInClub.pop_back();
 			eventsAll.push_back(Event(currentEvent.time, 11, currentEvent.name));
 			eventsAll.back().print();
 			return;
