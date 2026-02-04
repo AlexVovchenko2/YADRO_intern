@@ -58,10 +58,10 @@ void inputData(std::ifstream& fin,
 
 
 	std::getline(fin, timeBegin, ' ');
-	rtrim(tempLine);
+	rtrim(timeBegin);
 	if (timeBegin.length() != 5) throw UserException("Incorrect time format. Line: " + timeBegin);
 	std::getline(fin, timeEnd);
-	rtrim(tempLine);
+	rtrim(timeEnd);
 	if (timeEnd.length() != 5) throw UserException("Incorrect time format. Line: " + timeEnd);
 
 	if (timeBegin > timeEnd) throw UserException("Time not sequential. Line: " + timeBegin + " " + timeEnd);
