@@ -15,27 +15,28 @@ bool in(const T& value, std::vector<T> set) {
 }
 
 bool isFormat(const std::string(&words)[4]) {
+	std::string line = words[0] + " " + words[1] + " " + words[2] + ((words[3].empty()) ? "" : " " + words[3]);
 	if (words[0].length() != 5) {
-		throw UserException("Incorrect time format. Line: " + words[0]);
+		throw UserException("Incorrect time format. Line: " + line);
 		return false;
 	}
 
 	uint8_t id = std::stoi(words[1]);
 	if (!in(id, { 1, 2, 3, 4, 11, 12, 13 })) {
-		throw UserException("Incorrect ID format. Line: " + words[1]);
+		throw UserException("Incorrect ID format. Line: " + line);
 		return false;
 	}
 
 	for (char ch : words[2]) {
 		if (!in(ch, symb)) {
-			throw UserException("Incorrect name/error format. Line: " + words[2]);
+			throw UserException("Incorrect name/error format. Line: " + line);
 			return false;
 		}
 	}
 
 	if (id == 2 || id == 12) {
 		if (std::stoi(words[3]) <= 0) {
-			throw UserException("Value should be positive. Line: " + words[3]);
+			throw UserException("Value should be positive. Line: " + line);
 			return false;
 		}
 	}
